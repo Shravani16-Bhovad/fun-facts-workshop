@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Fun Facts Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .input-section, .output-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            margin: 10px 0;
+        }
+        #factDisplay {
+            min-height: 50px;
+            margin: 20px 0;
+            padding: 15px;
+            border: 2px solid #4CAF50;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .instructions {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 3px solid #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <h1>Personal Fun Facts Generator</h1>
+    
+    <div class="instructions">
+        <h3>Instructions:</h3>
+        <p>Please provide the following information:</p>
+        <ul>
+            <li>Your name</li>
+            <li>Your hobbies (e.g., reading, painting, cooking)</li>
+            <li>Things you're good at (e.g., can draw portraits, speak multiple languages)</li>
+            <li>Your interests (e.g., movies, books, travel)</li>
+            <li>Special achievements or quirky habits</li>
+        </ul>
+    </div>
+
+    <div class="input-section">
+        <label for="name">Your Name:</label><br>
+        <input type="text" id="name" required><br><br>
+        
+        <label for="details">Enter your details (one per line):</label><br>
+        <textarea id="details" placeholder="Example:
+Love reading mystery novels
+Can paint watercolor landscapes
+Speak three languages
+Cook Italian cuisine
+Love hiking mountains"></textarea><br>
+        
+        <button onclick="generateFacts()">Create Fun Facts</button>
+    </div>
+
+    <div class="output-section" style="display: none;">
+        <h2>Your Personal Fun Facts</h2>
+        <div id="factDisplay"></div>
+        <button onclick="showNextFact()">Show Another Fact</button>
+    </div>
+
+    <script>
+        let facts = [];
+        let currentFactIndex = -1;
+
+        function generateFacts() {
+            const name = document.getElementById('name').value.trim();
+            if (!name) {
+                alert('Please enter your name!');
+                return;
+            }
+
+            const details = document.getElementById('details').value.trim();
+            if (!details) {
+                alert('Please enter some details about yourself!');
+                return;
+            }
+
+            const lines = details.split('\n').filter(line => line.trim());
+            facts = lines.map(detail => {
+                return `${name} ${detail.charAt(0).toLowerCase() + detail.slice(1)}!`;
+            });
+
+            document.querySelector('.output-section').style.display = 'block';
+            showNextFact();
+        }
+
+        function showNextFact() {
+            if (facts.length === 0) return;
+            
+            currentFactIndex++;
+            if (currentFactIndex >= facts.length) {
+                currentFactIndex = 0;
+            }
+            
+            document.getElementById('factDisplay').textContent = facts[currentFactIndex];
+        }
+    </script>
+</body>
+</html>
